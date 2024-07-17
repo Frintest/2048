@@ -11,6 +11,7 @@ type
             squares: array [0..15] of integer;
             w, a, s, d: boolean;
             function computeNextSquareIndex: integer;
+            function computeValueSquare: integer;
       public
             constructor Create(_initialX, _initialY: integer);
             begin
@@ -26,6 +27,20 @@ type
       end;
 
 implementation
+
+function Field.computeValueSquare: integer;
+begin
+      var luckKprobability: integer;
+      var squareValue: integer;
+      
+      luckKprobability := random(0, 4);
+      if luckKprobability <> 3 then
+            squareValue := 2
+      else
+            squareValue := 4;
+      
+      result := squareValue;
+end;
 
 function Field.computeNextSquareIndex: integer;
 begin
@@ -43,10 +58,15 @@ end;
 
 procedure Field.handlersArrows;
 begin
+      self.w := false;
+      self.a := false;
+      self.s := false;
+      self.d := false;
+      
       case readKey of
             #119, #87: self.w := true;
-            #115, #83: self.s := true;
             #97, #65: self.a := true;
+            #115, #83: self.s := true;
             #100, #68: self.d := true;
       end;
 end;
@@ -56,8 +76,9 @@ begin
       var x, y: integer;
       var computeSquareIndex := self.computeNextSquareIndex();
       var currentSquareIndex: integer;
+      var squareValue := self.computeValueSquare();
       
-      self.squares[computeSquareIndex] := 2;
+      self.squares[computeSquareIndex] := squareValue;
       
       x := self.initialX;
       y := self.initialY;
