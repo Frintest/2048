@@ -2,17 +2,28 @@
 
 interface
 
-uses squareModule;
-uses crt;
+uses squareModule, crt;
 
-var
-      squaresFillReady: array of integer;
+type
+      Field = class
+      private
+            initialX: integer;
+            initialY: integer;
+            squaresFillReady: array of integer;
+            function computeNextSquareIndex(squaresFillReady: array of integer): integer;
+      public
+            constructor Create(_initialX: integer; _initialY: integer);
+            begin
+                  initialX := _initialX;
+                  initialY := _initialY;
+            end;
+            
+            procedure drawField;
+      end;
 
-procedure drawField(initialX: integer; initialY: integer);
-function computeNextSquareIndex(squaresFillReady: array of integer): integer;
 implementation
 
-function computeNextSquareIndex(squaresFillReady: array of integer): integer;
+function Field.computeNextSquareIndex(squaresFillReady: array of integer): integer;
 begin
       var index: integer;
       
@@ -26,13 +37,13 @@ begin
       result := index;
 end;
 
-procedure drawField(initialX: integer; initialY: integer);
+procedure Field.drawField;
 begin
       var x: integer;
       var y: integer;
       
-      x := initialX;
-      y := initialY;
+      x := self.initialX;
+      y := self.initialY;
       
       for var i := 0 to 3 do
       begin
@@ -42,7 +53,7 @@ begin
                   square.drawSquare();
                   x := x + 7;
             end;
-            x := initialX;
+            x := self.initialX;
             y := y + 7;
       end;
 end;

@@ -40,11 +40,11 @@ end;
 
 procedure Square.drawSquare;
 begin
-      var color := computeBgColor(number);
+      var color := computeBgColor(self.number);
       var strNumber: string;
       
-      strNumber := intToStr(number);
-      gotoXY(x, y);
+      strNumber := intToStr(self.number);
+      gotoXY(self.x, self.y);
       for var i := 0 to 5 do
       begin
             for var j := 0 to 5 do
@@ -60,7 +60,7 @@ begin
                         write('@');
                   end;
             end;
-            gotoXY(x, whereY + 1);
+            gotoXY(self.x, whereY + 1);
       end;
 end;
 end.

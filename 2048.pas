@@ -1,5 +1,4 @@
-﻿uses crt;
-uses fieldModule;
+﻿uses fieldModule, crt;
 
 begin
       var numbers: array [0..15] of integer;
@@ -11,7 +10,8 @@ begin
       
       initialX := 3;
       initialY := 3;
-      drawField(initialX, initialY);
+      var field := new Field(initialX, initialY);
+      field.drawField();
       
       textColor(black);
       textBackground(black);
