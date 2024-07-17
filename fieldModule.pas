@@ -16,6 +16,9 @@ type
             begin
                   initialX := _initialX;
                   initialY := _initialY;
+                  
+                  for var i := 0 to 15 do
+                        squares[i] := -1;
             end;
             
             procedure drawField;
@@ -27,13 +30,13 @@ implementation
 function Field.computeNextSquareIndex: integer;
 begin
       var index: integer;
-      index := random(0, 15);
-      //      while true do
-      //      begin
-      //            index := random(0, 15);
-      //                        if index not in self.squaresFillReady then
-      //                              break;
-      //      end;
+      
+      while true do
+      begin
+            index := random(0, 15);
+            if index not in self.squares then
+                  break;
+      end;
       
       result := index;
 end;
@@ -41,10 +44,10 @@ end;
 procedure Field.handlersArrows;
 begin
       case readKey of
-            #119, #87: write('1w');
-            #115, #83: write('1s');
-            #97, #65: write('1a');
-            #100, #68: write('1d');
+            #119, #87: self.w := true;
+            #115, #83: self.s := true;
+            #97, #65: self.a := true;
+            #100, #68: self.d := true;
       end;
 end;
 

@@ -10,7 +10,7 @@ type
             x, y, number: integer;
             function computeBgColor: integer;
       public
-            constructor Create(_x, _y: integer; _number: integer := 0);
+            constructor Create(_x, _y: integer; _number: integer := -1);
             begin
                   x := _x;
                   y := _y;
@@ -27,7 +27,7 @@ begin
       var color: integer;
       
       case self.number of
-            0: color := LightGray;
+            -1: color := LightGray;
             2: color := LightBlue;
             4: color := LightCyan;
             8: color := LightRed;
@@ -48,7 +48,7 @@ begin
       begin
             for var j := 0 to 5 do
             begin
-                  if (j >= 1) and (j <= length(strNumber)) and (i = 1) and (self.number <> 0) then
+                  if (j >= 1) and (j <= length(strNumber)) and (i = 1) and (self.number <> -1) then
                   begin
                         textColor(white);
                         textBackground(color);
