@@ -9,7 +9,7 @@ type
       private
             initialX, initialY: integer;
             squares: array [0..15] of integer;
-            //            squaresFillReady: array of integer;
+            w, a, s, d: boolean;
             function computeNextSquareIndex: integer;
       public
             constructor Create(_initialX, _initialY: integer);
@@ -19,6 +19,7 @@ type
             end;
             
             procedure drawField;
+            procedure handlersArrows;
       end;
 
 implementation
@@ -37,27 +38,23 @@ begin
       result := index;
 end;
 
+procedure Field.handlersArrows;
+begin
+      case readKey of
+            #119, #87: write('1w');
+            #115, #83: write('1s');
+            #97, #65: write('1a');
+            #100, #68: write('1d');
+      end;
+end;
+
 procedure Field.drawField;
 begin
       var x, y: integer;
       var computeSquareIndex := self.computeNextSquareIndex();
-      var currentSquareIndex:integer;
+      var currentSquareIndex: integer;
       
       self.squares[computeSquareIndex] := 2;
-      
-      //      var offsetPointX, offsetPointY: integer;
-      
-      //      case squareIndex of
-      //            0..2: offsetPointX := 0;
-      //            3..5: offsetPointX := 1;
-      //            6..8: offsetPointX := 2;
-      //      end;
-      //      
-      //      case squareIndex of
-      //            0, 3, 6: offsetPointY := 0;
-      //            1, 4, 7: offsetPointY := 1;
-      //            2, 5, 8: offsetPointY := 2;
-      //      end;
       
       x := self.initialX;
       y := self.initialY;

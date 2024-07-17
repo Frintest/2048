@@ -10,7 +10,11 @@ begin
       initialY := 3;
       var field := new Field(initialX, initialY);
       field.drawField();
+      textColor(white);
+      field.handlersArrows();
       
       textColor(black);
       textBackground(black);
+      
+      readln;
 end.
