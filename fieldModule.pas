@@ -9,6 +9,7 @@ type
       private
             initialX: integer;
             initialY: integer;
+            squares: array [0..15] of integer;
             squaresFillReady: array of integer;
             function computeNextSquareIndex(squaresFillReady: array of integer): integer;
       public

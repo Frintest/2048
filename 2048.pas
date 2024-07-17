@@ -1,7 +1,6 @@
 ﻿uses fieldModule, crt;
 
 begin
-      var numbers: array [0..15] of integer;
       var initialX: integer;
       var initialY: integer;
       

@@ -10,7 +10,7 @@ type
             x: integer;
             y: integer;
             number: integer;
-            function computeBgColor(number: integer): integer;
+            function computeBgColor: integer;
       public
             constructor Create(_x: integer; _y: integer; _number: integer);
             begin
@@ -24,11 +24,11 @@ type
 
 implementation
 
-function Square.computeBgColor(number: integer): integer;
+function Square.computeBgColor: integer;
 begin
       var color: integer;
       
-      case number of
+      case self.number of
             2: color := LightBlue;
             4: color := LightCyan;
             8: color := LightRed;
@@ -40,7 +40,7 @@ end;
 
 procedure Square.drawSquare;
 begin
-      var color := computeBgColor(self.number);
+      var color := computeBgColor();
       var strNumber: string;
       
       strNumber := intToStr(self.number);
