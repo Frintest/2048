@@ -1,8 +1,7 @@
 ﻿uses fieldModule, crt;
 
 begin
-      var initialX: integer;
-      var initialY: integer;
+      var initialX, initialY: integer;
       
       setWindowSize(31, 32);
       hideCursor();

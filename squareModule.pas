@@ -7,12 +7,10 @@ uses crt;
 type
       Square = class
       private
-            x: integer;
-            y: integer;
-            number: integer;
+            x, y, number: integer;
             function computeBgColor: integer;
       public
-            constructor Create(_x: integer; _y: integer; _number: integer);
+            constructor Create(_x, _y, _number: integer);
             begin
                   x := _x;
                   y := _y;

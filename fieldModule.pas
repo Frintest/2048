@@ -7,13 +7,12 @@ uses squareModule, crt;
 type
       Field = class
       private
-            initialX: integer;
-            initialY: integer;
+            initialX, initialY: integer;
             squares: array [0..15] of integer;
             squaresFillReady: array of integer;
             function computeNextSquareIndex(squaresFillReady: array of integer): integer;
       public
-            constructor Create(_initialX: integer; _initialY: integer);
+            constructor Create(_initialX, _initialY: integer);
             begin
                   initialX := _initialX;
                   initialY := _initialY;
@@ -40,8 +39,7 @@ end;
 
 procedure Field.drawField;
 begin
-      var x: integer;
-      var y: integer;
+      var x, y: integer;
       
       x := self.initialX;
       y := self.initialY;
