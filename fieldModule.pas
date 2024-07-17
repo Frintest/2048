@@ -1,8 +1,8 @@
-﻿unit field;
+﻿unit fieldModule;
 
 interface
 
-uses square;
+uses squareModule;
 uses crt;
 
 var
@@ -38,8 +38,8 @@ begin
       begin
             for var j := 0 to 3 do
             begin
-                  //                  drawSquare(x, y, 2048, darkGray);
-                  drawSquare(x, y, 2);
+                  var square := new Square(x, y, 8);
+                  square.drawSquare();
                   x := x + 7;
             end;
             x := initialX;

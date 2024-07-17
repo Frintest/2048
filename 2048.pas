@@ -1,5 +1,5 @@
 ﻿uses crt;
-uses field;
+uses fieldModule;
 
 begin
       var numbers: array [0..15] of integer;

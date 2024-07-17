@@ -1,18 +1,34 @@
-﻿unit square;
+﻿unit squareModule;
 
 interface
 
 uses crt;
 
-function computeBgColor(number: integer): integer;
-procedure drawSquare(x: integer; y: integer; number: integer);
+type
+      Square = class
+      private
+            x: integer;
+            y: integer;
+            number: integer;
+            function computeBgColor(number: integer): integer;
+      public
+            constructor Create(_x: integer; _y: integer; _number: integer);
+            begin
+                  x := _x;
+                  y := _y;
+                  number := _number;
+            end;
+            
+            procedure drawSquare;
+      end;
+
 implementation
 
-function computeBgColor(number: integer): integer;
+function Square.computeBgColor(number: integer): integer;
 begin
       var color: integer;
       
-  case number of
+      case number of
             2: color := LightBlue;
             4: color := LightCyan;
             8: color := LightRed;
@@ -22,7 +38,7 @@ begin
       result := color;
 end;
 
-procedure drawSquare(x: integer; y: integer; number: integer);
+procedure Square.drawSquare;
 begin
       var color := computeBgColor(number);
       var strNumber: string;
