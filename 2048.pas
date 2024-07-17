@@ -1,8 +1,8 @@
 ﻿uses crt;
-uses drawFieldModule;
+uses field;
 
 begin
-      var a: array [0..15] of integer;
+      var numbers: array [0..15] of integer;
       var initialX: integer;
       var initialY: integer;
       
