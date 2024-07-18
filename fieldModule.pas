@@ -111,37 +111,55 @@ begin
       var newSquares: array [0..15] of integer;
       
       for var i := 0 to 15 do
-            newSquares[i] := -1;
+            newSquares[i] := self.squares[i];
       
       for var i := 0 to 15 do
       begin
             //        0123
-                        //        4567
-                        //        89 10 11
-            //            12 13 14 15
+            //        4567
+            //        89 10 11
+            //        12 13 14 15
             if (self.squares[i] <> -1) and (i >= 4) then
             begin
                   case i of
                         4..7:
                               begin
                                     if self.squares[i - 4]  = -1 then
+                                    begin
                                           newSquares[i - 4] := self.squares[i];
+                                          newSquares[i] := -1;
+                                    end;
                               end;
                         8..11:
                               begin
                                     if self.squares[i - 8]  = -1 then
-                                          newSquares[i - 8] := self.squares[i]
+                                    begin
+                                          newSquares[i - 8] := self.squares[i];
+                                          newSquares[i] := -1;
+                                    end
                                     else if self.squares[i - 4]  = -1 then
+                                    begin
                                           newSquares[i - 4] := self.squares[i];
+                                          newSquares[i] := -1;
+                                    end;
                               end;
                         12..15:
                               begin
                                     if self.squares[i - 12]  = -1 then
-                                          newSquares[i - 12] := self.squares[i]
+                                    begin
+                                          newSquares[i - 12] := self.squares[i];
+                                          newSquares[i] := -1;
+                                    end
                                     else if self.squares[i - 8]  = -1 then
-                                          newSquares[i - 8] := self.squares[i]
+                                    begin
+                                          newSquares[i - 8] := self.squares[i];
+                                          newSquares[i] := -1;
+                                    end
                                     else if self.squares[i - 4]  = -1 then
+                                    begin
                                           newSquares[i - 4] := self.squares[i];
+                                          newSquares[i] := -1;
+                                    end;
                               end;
                   end;
             end;
