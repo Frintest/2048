@@ -10,7 +10,16 @@ begin
       initialY := 3;
       var field := new Field(initialX, initialY);
       field.drawField();
-      field.handlersArrows();
+      
+      while true do
+      begin
+            field.handlersArrows();
+            
+            if field.IsRerender then
+            begin
+                  field.drawField();
+            end;
+      end;
       
       textColor(black);
       textBackground(black);

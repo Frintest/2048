@@ -9,24 +9,39 @@ type
       private
             initialX, initialY: integer;
             squares: array [0..15] of integer;
-            w, a, s, d: boolean;
+            w, a, s, d, fIsRerender: boolean;
+            
             function computeNextSquareIndex: integer;
             function computeValueSquare: integer;
+            function getIsRerender: boolean;
+            procedure setIsRerender(newValue: boolean);
       public
             constructor Create(_initialX, _initialY: integer);
             begin
-                  initialX := _initialX;
-                  initialY := _initialY;
+                  self.initialX := _initialX;
+                  self.initialY := _initialY;
                   
                   for var i := 0 to 15 do
-                        squares[i] := -1;
+                        self.squares[i] := -1;
             end;
             
             procedure drawField;
             procedure handlersArrows;
+            
+            property isRerender: boolean read getIsRerender write setIsRerender;
       end;
 
 implementation
+
+function Field.getIsRerender: boolean;
+begin
+      result := self.fIsRerender;
+end;
+
+procedure Field.setIsRerender(newValue: boolean);
+begin
+      self.fIsRerender := newValue;
+end;
 
 function Field.computeValueSquare: integer;
 begin
@@ -69,6 +84,8 @@ begin
             #115, #83: self.s := true;
             #100, #68: self.d := true;
       end;
+      
+      self.fIsRerender := true;
 end;
 
 procedure Field.drawField;
@@ -95,5 +112,7 @@ begin
             x := self.initialX;
             y := y + 7;
       end;
+      
+      self.fIsRerender := false;
 end;
 end.
