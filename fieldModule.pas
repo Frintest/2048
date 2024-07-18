@@ -15,6 +15,7 @@ type
             function computeValueSquare: integer;
             function getIsRerender: boolean;
             procedure setIsRerender(newValue: boolean);
+            procedure addSquare(squareValue, index: integer);
       public
             constructor Create(_initialX, _initialY: integer);
             begin
@@ -64,7 +65,8 @@ begin
       while true do
       begin
             index := random(0, 15);
-            if index not in self.squares then
+            
+            if self.squares[index] = -1 then
                   break;
       end;
       
@@ -88,6 +90,11 @@ begin
       self.fIsRerender := true;
 end;
 
+procedure Field.addSquare(squareValue, index: integer);
+begin
+      self.squares[index] := squareValue;
+end;
+
 procedure Field.drawField;
 begin
       var x, y: integer;
@@ -95,10 +102,9 @@ begin
       var currentSquareIndex: integer;
       var squareValue := self.computeValueSquare();
       
-      self.squares[computeSquareIndex] := squareValue;
-      
       x := self.initialX;
       y := self.initialY;
+      self.addSquare(squareValue, computeSquareIndex);
       
       for var i := 0 to 3 do
       begin
