@@ -16,6 +16,7 @@ type
             function getIsRerender: boolean;
             procedure setIsRerender(newValue: boolean);
             procedure addSquare(squareValue, index: integer);
+            procedure onHandleTop;
       public
             constructor Create(_initialX, _initialY: integer);
             begin
@@ -81,13 +82,73 @@ begin
       self.d := false;
       
       case readKey of
-            #119, #87: self.w := true;
-            #97, #65: self.a := true;
-            #115, #83: self.s := true;
-            #100, #68: self.d := true;
+            #119, #87: 
+                  begin
+                        self.w := true;
+                        self.onHandleTop();
+                        self.fIsRerender := true;
+                  end;
+            #97, #65:
+                  begin
+                        self.a := true;
+                        self.fIsRerender := true;
+                  end;
+            #115, #83:
+                  begin
+                        self.s := true;
+                        self.fIsRerender := true;
+                  end;
+            #100, #68:
+                  begin
+                        self.d := true;
+                        self.fIsRerender := true;
+                  end;
+      end;
+end;
+
+procedure Field.onHandleTop;
+begin
+      var newSquares: array [0..15] of integer;
+      
+      for var i := 0 to 15 do
+            newSquares[i] := -1;
+      
+      for var i := 0 to 15 do
+      begin
+            //        0123
+                        //        4567
+                        //        89 10 11
+            //            12 13 14 15
+            if (self.squares[i] <> -1) and (i >= 4) then
+            begin
+                  case i of
+                        4..7:
+                              begin
+                                    if self.squares[i - 4]  = -1 then
+                                          newSquares[i - 4] := self.squares[i];
+                              end;
+                        8..11:
+                              begin
+                                    if self.squares[i - 8]  = -1 then
+                                          newSquares[i - 8] := self.squares[i]
+                                    else if self.squares[i - 4]  = -1 then
+                                          newSquares[i - 4] := self.squares[i];
+                              end;
+                        12..15:
+                              begin
+                                    if self.squares[i - 12]  = -1 then
+                                          newSquares[i - 12] := self.squares[i]
+                                    else if self.squares[i - 8]  = -1 then
+                                          newSquares[i - 8] := self.squares[i]
+                                    else if self.squares[i - 4]  = -1 then
+                                          newSquares[i - 4] := self.squares[i];
+                              end;
+                  end;
+            end;
       end;
       
-      self.fIsRerender := true;
+      for var i := 0 to 15 do
+            self.squares[i] := newSquares[i];
 end;
 
 procedure Field.addSquare(squareValue, index: integer);
