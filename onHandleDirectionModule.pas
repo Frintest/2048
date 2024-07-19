@@ -2,15 +2,15 @@
 
 interface
 
-function onHandleDirection(squares: array [,] of integer): array [,] of integer;
+function onHandleDirection(squares: array [,] of integer; size: integer): array [,] of integer;
 implementation
 
-function onHandleDirection(squares: array [,] of integer): array [,] of integer;
+function onHandleDirection(squares: array [,] of integer; size: integer): array [,] of integer;
 begin
       var newSquares := squares;
       
-      for var i := 0 to 3 do
-            for var j := 0 to 3 do
+      for var i := 0 to size - 1 do
+            for var j := 0 to size - 1 do
                   if (squares[i, j] <> -1) and (i >= 1) then
                         for var m := i downto 1 do
                         begin

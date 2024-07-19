@@ -7,10 +7,9 @@ uses squareModule, crt, onHandleDirectionModule;
 type
       Field = class
       private
-            initialX, initialY: integer;
+            initialX, initialY, size: integer;
             errorCode: integer := -1;
-            size: integer := 4;
-            squares: array [,] of integer := new integer[size, size];
+            squares: array [,] of integer;
             fIsRerender: boolean;
             
             procedure fillSquaresErrorCodes;
@@ -27,10 +26,12 @@ type
             function onHandleBottom(squares: array [,] of integer): array [,] of integer;
             function onHandleRight(squares: array [,] of integer): array [,] of integer;
       public
-            constructor Create(_initialX, _initialY: integer);
+            constructor Create(_initialX, _initialY, _size: integer);
             begin
-                  self.initialY := _initialY;
                   self.initialX := _initialX;
+                  self.initialY := _initialY;
+                  self.size := _size;
+                   squares := new integer[self.size, self.size];
                   self.fillSquaresErrorCodes();
             end;
             
@@ -44,13 +45,9 @@ implementation
 
 procedure Field.fillSquaresErrorCodes;
 begin
-      for var i := 0 to 3 do
-      begin
-            for var j := 0 to 3 do
-            begin
+      for var i := 0 to self.size - 1 do
+            for var j := 0 to self.size - 1 do
                   self.squares[i, j] := self.errorCode;
-            end;
-      end;
 end;
 
 function Field.getIsRerender: boolean;
@@ -124,22 +121,22 @@ end;
 
 function Field.rotateSquaresToLeft(squares: array [,] of integer): array [,] of integer;
 begin
-      var rotateSquares:  array [,] of integer := new integer[4, 4];
+      var rotateSquares:  array [,] of integer := new integer[self.size, self.size];
       
-      for var i := 0 to 3 do
-            for var j := 0 to 3 do
-                  rotateSquares[i, j] := squares[4 - j - 1, i];
+      for var i := 0 to self.size - 1 do
+            for var j := 0 to self.size - 1 do
+                  rotateSquares[i, j] := squares[self.size - j - 1, i];
 
       result := rotateSquares;
 end;
 
 function Field.rotateSquaresToRight(squares: array [,] of integer): array [,] of integer;
 begin
-      var rotateSquares:  array [,] of integer := new integer[4, 4];
+      var rotateSquares:  array [,] of integer := new integer[self.size, self.size];
       
-      for var i := 0 to 3 do
-            for var j := 0 to 3 do
-                  rotateSquares[i, j] := squares[j, 4 - i - 1];
+      for var i := 0 to self.size - 1 do
+            for var j := 0 to self.size - 1 do
+                  rotateSquares[i, j] := squares[j, self.size - i - 1];
             
       result := rotateSquares;
 end;
@@ -152,13 +149,13 @@ end;
 
 function Field.onHandleTop(squares: array [,] of integer): array [,] of integer;
 begin
-      result := onHandleDirection(squares);
+      result := onHandleDirection(squares, self.size);
 end;
 
 function Field.onHandleLeft(squares: array [,] of integer): array [,] of integer;
 begin
       var rotateLeftSquares := self.rotateSquaresToLeft(squares);
-      var newSquares := onHandleDirection(rotateLeftSquares);
+      var newSquares := onHandleDirection(rotateLeftSquares, self.size);
       var rotateRightSquares := self.rotateSquaresToRight(newSquares); 
       
       result := rotateRightSquares;
@@ -167,7 +164,7 @@ end;
 function Field.onHandleRight(squares: array [,] of integer): array [,] of integer;
 begin
       var rotateRightSquares := self.rotateSquaresToRight(squares);
-      var newSquares := onHandleDirection(rotateRightSquares);
+      var newSquares := onHandleDirection(rotateRightSquares, self.size);
       var rotateLeftSquares := self.rotateSquaresToLeft(newSquares);
       
       result := rotateLeftSquares;
@@ -176,7 +173,7 @@ end;
 function Field.onHandleBottom(squares: array [,] of integer): array [,] of integer;
 begin
       var rotateBottomSquares := self.rotateSquaresToOpposite(squares);
-      var newSquares := onHandleDirection(rotateBottomSquares);
+      var newSquares := onHandleDirection(rotateBottomSquares, self.size);
       var rotateTopSquares := self.rotateSquaresToOpposite(newSquares);
       
       result := rotateTopSquares;
@@ -199,9 +196,9 @@ begin
       x := self.initialX;
       self.addSquare(squareIndexes, squareValue);
       
-      for var i := 0 to 3 do
+      for var i := 0 to self.size - 1 do
       begin
-            for var j := 0 to 3 do
+            for var j := 0 to self.size - 1 do
             begin
                   var square := new Square(x, y, self.squares[i, j]);
                   square.drawSquare();
