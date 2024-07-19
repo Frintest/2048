@@ -2,35 +2,32 @@
 
 interface
 
-function onHandleDirection(squares: array of integer): array of integer;
+function onHandleDirection(squares: array [,] of integer): array [,] of integer;
 implementation
 
-function onHandleDirection(squares: array of integer): array of integer;
+function onHandleDirection(squares: array [,] of integer): array [,] of integer;
 begin
       var newSquares := squares;
       
-      for var i := 0 to 15 do
-            if (squares[i] <> -1) and (i >= 4) then
-                  for var j := trunc(i / 4) downto 1 do
-                  begin
-                        var diff: integer;
-                        
-                        diff := j * 4;
-                        
-                        if squares[i - diff]  = -1 then
+      for var i := 0 to 3 do
+            for var j := 0 to 3 do
+                  if (squares[i, j] <> -1) and (i >= 1) then
+                        for var m := i downto 1 do
                         begin
-                              newSquares[i - diff] := squares[i];
-                              newSquares[i] := -1;
-                              break;
-                        end
-                        
-                        else if squares[i - diff]  = squares[i] then
-                        begin
-                              newSquares[i - diff] := squares[i] * 2;
-                              newSquares[i] := -1;
-                              break;
+                              if squares[i - m, j]  = -1 then
+                              begin
+                                    newSquares[i - m, j] := squares[i, j];
+                                    newSquares[i, j] := -1;
+                                    break;
+                              end
+                              
+                              else if squares[i - m, j]  = squares[i, j] then
+                              begin
+                                    newSquares[i - m, j] := squares[i, j] * 2;
+                                    newSquares[i, j] := -1;
+                                    break;
+                              end;
                         end;
-                  end;
       
       result := newSquares;
 end;

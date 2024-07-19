@@ -9,23 +9,26 @@ type
       private
             initialX, initialY: integer;
             errorCode: integer := -1;
-            squares: array of integer := arrFill(16, errorCode);
+            size: integer := 4;
+            squares: array [,] of integer := new integer[size, size];
             fIsRerender: boolean;
             
-            function computeNextSquareIndex: integer;
+            procedure fillSquaresErrorCodes;
+            function computeNextSquareIndex: System.Tuple<integer, integer>;
             function computeValueSquare: integer;
             function getIsRerender: boolean;
             procedure setIsRerender(newValue: boolean);
-            procedure addSquare(squareValue, index: integer);
-            function onHandleTop(squares: array of integer): array of integer;
-      //            function onHandleLeft(squares: array of integer): array of integer;
-                  function onHandleBottom(squares: array of integer): array of integer;
-      //            function onHandleRight(squares: array of integer): array of integer;
+            procedure addSquare(squareIndexes: System.Tuple<integer, integer>; squareValue: integer);
+            function onHandleTop(squares: array [,] of integer): array [,] of integer;
+            function onHandleLeft(squares: array  [,] of integer): array [,] of integer;
+            function onHandleBottom(squares: array [,] of integer): array [,] of integer;
+            function onHandleRight(squares: array [,] of integer): array [,] of integer;
       public
             constructor Create(_initialX, _initialY: integer);
             begin
-                  self.initialX := _initialX;
                   self.initialY := _initialY;
+                  self.initialX := _initialX;
+                  self.fillSquaresErrorCodes();
             end;
             
             procedure drawField;
@@ -35,6 +38,17 @@ type
       end;
 
 implementation
+
+procedure Field.fillSquaresErrorCodes;
+begin
+      for var i := 0 to 3 do
+      begin
+            for var j := 0 to 3 do
+            begin
+                  self.squares[i, j] := self.errorCode;
+            end;
+      end;
+end;
 
 function Field.getIsRerender: boolean;
 begin
@@ -60,19 +74,23 @@ begin
       result := squareValue;
 end;
 
-function Field.computeNextSquareIndex: integer;
+function Field.computeNextSquareIndex: System.Tuple<integer, integer>;
 begin
-      var index: integer;
+      var indexY, indexX: integer;
       
       while true do
       begin
-            index := random(0, 15);
+            indexY := random(0, 3);
+            indexX := random(0, 3);
             
-            if self.squares[index] = -1 then
+            if self.squares[indexY, indexX] = -1 then
                   break;
       end;
       
-      result := index;
+      var resultIndexes: (integer, integer);
+      resultIndexes := (indexY, indexX);
+      
+      result := resultIndexes;
 end;
 
 procedure Field.handlersArrows;
@@ -85,7 +103,7 @@ begin
                   end;
             #97, #65:
                   begin
-                        //                        self.onHandleLeft();
+                        self.onHandleLeft(self.squares);
                         self.fIsRerender := true;
                   end;
             #115, #83:
@@ -95,7 +113,7 @@ begin
                   end;
             #100, #68:
                   begin
-                        //                        self.onHandleRight();
+                        self.onHandleRight(self.squares);
                         self.fIsRerender := true;
                   end;
       end;
@@ -110,40 +128,50 @@ end;
             //     8 / 4 = 2
             //     12 / 4 = 3
 
-function Field.onHandleTop(squares: array of integer): array of integer;
+function Field.onHandleTop(squares: array [,] of integer): array [,] of integer;
 begin
       result := onHandleDirection(squares);
 end;
 
-function Field.onHandleBottom(squares: array of integer): array of integer;
+function Field.onHandleLeft(squares: array [,] of integer): array [,] of integer;
 begin
       result := onHandleDirection(squares);
 end;
 
-procedure Field.addSquare(squareValue, index: integer);
+function Field.onHandleBottom(squares: array [,] of integer): array [,] of integer;
 begin
-      self.squares[index] := squareValue;
+      result := onHandleDirection(squares);
+end;
+
+function Field.onHandleRight(squares: array [,] of integer): array [,] of integer;
+begin
+      result := onHandleDirection(squares);
+end;
+
+procedure Field.addSquare(squareIndexes: System.Tuple<integer, integer>; squareValue: integer);
+begin
+      var indexY, indexX: integer;
+      (indexY, indexX) := squareIndexes;
+      self.squares[indexY, indexX] := squareValue;
 end;
 
 procedure Field.drawField;
 begin
-      var x, y: integer;
-      var computeSquareIndex := self.computeNextSquareIndex();
-      var currentSquareIndex: integer;
+      var y, x: integer;
+      var squareIndexes := self.computeNextSquareIndex();
       var squareValue := self.computeValueSquare();
       
-      x := self.initialX;
       y := self.initialY;
-      self.addSquare(squareValue, computeSquareIndex);
-      
+      x := self.initialX;
+      self.addSquare(squareIndexes, squareValue);
+
       for var i := 0 to 3 do
       begin
             for var j := 0 to 3 do
             begin
-                  var square := new Square(x, y, self.squares[currentSquareIndex]);
+                  var square := new Square(x, y, self.squares[i, j]);
                   square.drawSquare();
                   x := x + 7;
-                  currentSquareIndex := currentSquareIndex + 1;
             end;
             x := self.initialX;
             y := y + 7;
