@@ -8,6 +8,7 @@ type
       Square = class
       private
             x, y, number: integer;
+            errorCode: integer := -1;
             function computeBgColor: integer;
       public
             constructor Create(_x, _y: integer; _number: integer := -1);
@@ -33,12 +34,12 @@ begin
             8: color := LightRed;
             16: color := LightGreen;
             32: color := LightMagenta;
-//            64: color:= ;
-//            128: color := ;
-//            256: color := ;
-//            512 : color := ;
-//            1024 :color := ;
-//            2048: color := ;
+      //            64: color:= ;
+      //            128: color := ;
+      //            256: color := ;
+      //            512 : color := ;
+      //            1024 :color := ;
+      //            2048: color := ;
       end;
       
       result := color;

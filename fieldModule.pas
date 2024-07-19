@@ -2,13 +2,13 @@
 
 interface
 
-uses squareModule, crt;
+uses squareModule, crt, onHandleTopModule, onHandleBottomModule;
 
 type
       Field = class
       private
             initialX, initialY: integer;
-            squares: array of integer := new integer[16];
+            squares: array of integer := arrFill(16, -1);
             fIsRerender: boolean;
             
             function computeNextSquareIndex: integer;
@@ -16,16 +16,13 @@ type
             function getIsRerender: boolean;
             procedure setIsRerender(newValue: boolean);
             procedure addSquare(squareValue, index: integer);
-            procedure onHandleTop;
+            function onHandleTop(squares: array of integer): array of integer;
+            function onHandleBottom(squares: array of integer): array of integer;
       public
             constructor Create(_initialX, _initialY: integer);
             begin
                   self.initialX := _initialX;
                   self.initialY := _initialY;
-                  
-                  //                  self.squares := new integer[16];
-                  for var i := 0 to 15 do
-                        self.squares[i] := -1;
             end;
             
             procedure drawField;
@@ -80,7 +77,7 @@ begin
       case readKey of
             #119, #87: 
                   begin
-                        self.onHandleTop();
+                        self.squares := self.onHandleTop(self.squares);
                         self.fIsRerender := true;
                   end;
             #97, #65:
@@ -90,7 +87,7 @@ begin
                   end;
             #115, #83:
                   begin
-                        //                        self.onHandleBottom();
+                        self.squares := self.onHandleBottom(self.squares);
                         self.fIsRerender := true;
                   end;
             #100, #68:
@@ -110,35 +107,14 @@ end;
             //     8 / 4 = 2
             //     12 / 4 = 3
 
-procedure Field.onHandleTop;
+function Field.onHandleTop(squares: array of integer): array of integer;
 begin
-      var newSquares: array of integer := new integer[16];
-      newSquares := self.squares;
-      
-      for var i := 0 to 15 do
-            if (self.squares[i] <> -1) and (i >= 4) then
-                  for var j := trunc(i / 4) downto 1 do
-                  begin
-                        var diff: integer;
-                        
-                        diff := j * 4;
-                        
-                        if self.squares[i - diff]  = -1 then
-                        begin
-                              newSquares[i - diff] := self.squares[i];
-                              newSquares[i] := -1;
-                              break;
-                        end
-                        
-                        else if self.squares[i - diff]  = self.squares[i] then
-                        begin
-                              newSquares[i - diff] := self.squares[i] * 2;
-                              newSquares[i] := -1;
-                              break;
-                        end;
-                  end;
-      
-      self.squares := newSquares;
+      result := onHandleTopModule.onHandleTop(squares);
+end;
+
+function Field.onHandleBottom(squares: array of integer): array of integer;
+begin
+      result := onHandleBottomModule.onHandleBottom(squares);
 end;
 
 procedure Field.addSquare(squareValue, index: integer);
