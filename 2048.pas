@@ -16,9 +16,7 @@ begin
             field.handlersArrows();
             
             if field.IsRerender then
-            begin
                   field.drawField();
-            end;
       end;
       
       textColor(black);
