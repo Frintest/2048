@@ -128,6 +128,12 @@ begin
                                     begin
                                           newSquares[i - 4] := self.squares[i];
                                           newSquares[i] := -1;
+                                    end
+                                    
+                                    else if self.squares[i - 4]  = self.squares[i] then
+                                    begin
+                                          newSquares[i - 4] := self.squares[i] * 2;
+                                          newSquares[i] := -1;
                                     end;
                               end;
                         8..11:
@@ -137,9 +143,22 @@ begin
                                           newSquares[i - 8] := self.squares[i];
                                           newSquares[i] := -1;
                                     end
+                                    
+                                    else if self.squares[i - 8] = self.squares[i] then
+                                    begin
+                                          newSquares[i - 8] := self.squares[i] * 2;
+                                          newSquares[i] := -1;
+                                    end
+                                    
                                     else if self.squares[i - 4]  = -1 then
                                     begin
                                           newSquares[i - 4] := self.squares[i];
+                                          newSquares[i] := -1;
+                                    end
+                                    
+                                    else if self.squares[i - 4] = self.squares[i] then
+                                    begin
+                                          newSquares[i - 4] := self.squares[i] * 2;
                                           newSquares[i] := -1;
                                     end;
                               end;
@@ -150,11 +169,13 @@ begin
                                           newSquares[i - 12] := self.squares[i];
                                           newSquares[i] := -1;
                                     end
+                                    
                                     else if self.squares[i - 8]  = -1 then
                                     begin
                                           newSquares[i - 8] := self.squares[i];
                                           newSquares[i] := -1;
                                     end
+                                    
                                     else if self.squares[i - 4]  = -1 then
                                     begin
                                           newSquares[i - 4] := self.squares[i];
