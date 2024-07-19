@@ -23,6 +23,5 @@ begin
       
       textColor(black);
       textBackground(black);
-      
       readln;
 end.
