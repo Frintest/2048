@@ -21,6 +21,7 @@ type
             procedure addSquare(squareIndexes: System.Tuple<integer, integer>; squareValue: integer);
             function rotateSquaresToLeft(squares: array [,] of integer): array [,] of integer;
             function rotateSquaresToRight(squares: array [,] of integer): array [,] of integer;
+            function rotateSquaresToOpposite(squares: array [,] of integer): array [,] of integer;
             function onHandleTop(squares: array [,] of integer): array [,] of integer;
             function onHandleLeft(squares: array  [,] of integer): array [,] of integer;
             function onHandleBottom(squares: array [,] of integer): array [,] of integer;
@@ -121,11 +122,6 @@ begin
       end;
 end;
 
-function Field.onHandleTop(squares: array [,] of integer): array [,] of integer;
-begin
-      result := onHandleDirection(squares);
-end;
-
 function Field.rotateSquaresToLeft(squares: array [,] of integer): array [,] of integer;
 begin
       var rotateSquares:  array [,] of integer := new integer[4, 4];
@@ -133,7 +129,7 @@ begin
       for var i := 0 to 3 do
             for var j := 0 to 3 do
                   rotateSquares[i, j] := squares[4 - j - 1, i];
-            
+
       result := rotateSquares;
 end;
 
@@ -148,23 +144,42 @@ begin
       result := rotateSquares;
 end;
 
+function Field.rotateSquaresToOpposite(squares: array [,] of integer): array [,] of integer;
+begin
+      var rotateSquares := self.rotateSquaresToLeft(self.rotateSquaresToLeft(squares));
+      result := rotateSquares;
+end;
+
+function Field.onHandleTop(squares: array [,] of integer): array [,] of integer;
+begin
+      result := onHandleDirection(squares);
+end;
+
 function Field.onHandleLeft(squares: array [,] of integer): array [,] of integer;
 begin
       var rotateLeftSquares := self.rotateSquaresToLeft(squares);
       var newSquares := onHandleDirection(rotateLeftSquares);
-      var rotateRightSquares := self.rotateSquaresToRight(newSquares);
-            
+      var rotateRightSquares := self.rotateSquaresToRight(newSquares); 
+      
       result := rotateRightSquares;
-end;
-
-function Field.onHandleBottom(squares: array [,] of integer): array [,] of integer;
-begin
-      result := onHandleDirection(squares);
 end;
 
 function Field.onHandleRight(squares: array [,] of integer): array [,] of integer;
 begin
-      result := onHandleDirection(squares);
+      var rotateRightSquares := self.rotateSquaresToRight(squares);
+      var newSquares := onHandleDirection(rotateRightSquares);
+      var rotateLeftSquares := self.rotateSquaresToLeft(newSquares);
+      
+      result := rotateLeftSquares;
+end;
+
+function Field.onHandleBottom(squares: array [,] of integer): array [,] of integer;
+begin
+      var rotateBottomSquares := self.rotateSquaresToOpposite(squares);
+      var newSquares := onHandleDirection(rotateBottomSquares);
+      var rotateTopSquares := self.rotateSquaresToOpposite(newSquares);
+      
+      result := rotateTopSquares;
 end;
 
 procedure Field.addSquare(squareIndexes: System.Tuple<integer, integer>; squareValue: integer);
