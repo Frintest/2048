@@ -2,13 +2,14 @@
 
 interface
 
-uses squareModule, crt, onHandleTopModule, onHandleBottomModule;
+uses squareModule, crt, onHandleDirectionModule;
 
 type
       Field = class
       private
             initialX, initialY: integer;
-            squares: array of integer := arrFill(16, -1);
+            errorCode: integer := -1;
+            squares: array of integer := arrFill(16, errorCode);
             fIsRerender: boolean;
             
             function computeNextSquareIndex: integer;
@@ -17,7 +18,9 @@ type
             procedure setIsRerender(newValue: boolean);
             procedure addSquare(squareValue, index: integer);
             function onHandleTop(squares: array of integer): array of integer;
-            function onHandleBottom(squares: array of integer): array of integer;
+      //            function onHandleLeft(squares: array of integer): array of integer;
+                  function onHandleBottom(squares: array of integer): array of integer;
+      //            function onHandleRight(squares: array of integer): array of integer;
       public
             constructor Create(_initialX, _initialY: integer);
             begin
@@ -109,12 +112,12 @@ end;
 
 function Field.onHandleTop(squares: array of integer): array of integer;
 begin
-      result := onHandleTopModule.onHandleTop(squares);
+      result := onHandleDirection(squares);
 end;
 
 function Field.onHandleBottom(squares: array of integer): array of integer;
 begin
-      result := onHandleBottomModule.onHandleBottom(squares);
+      result := onHandleDirection(squares);
 end;
 
 procedure Field.addSquare(squareValue, index: integer);

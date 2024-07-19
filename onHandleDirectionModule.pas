@@ -1,11 +1,11 @@
-﻿unit onHandleBottomModule;
+﻿unit onHandleDirectionModule;
 
 interface
 
-function onHandleBottom(squares: array of integer): array of integer;
+function onHandleDirection(squares: array of integer): array of integer;
 implementation
 
-function onHandleBottom(squares: array of integer): array of integer;
+function onHandleDirection(squares: array of integer): array of integer;
 begin
       var newSquares := squares;
       
