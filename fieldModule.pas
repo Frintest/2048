@@ -5,13 +5,10 @@ interface
 uses squareModule, crt;
 
 type
-      matrix = array [0..15] of integer;
-
-type
       Field = class
       private
             initialX, initialY: integer;
-            squares: matrix;
+            squares: array of integer := new integer[16];
             fIsRerender: boolean;
             
             function computeNextSquareIndex: integer;
@@ -26,6 +23,7 @@ type
                   self.initialX := _initialX;
                   self.initialY := _initialY;
                   
+                  //                  self.squares := new integer[16];
                   for var i := 0 to 15 do
                         self.squares[i] := -1;
             end;
@@ -114,10 +112,8 @@ end;
 
 procedure Field.onHandleTop;
 begin
-      var newSquares: matrix;
-      
-      for var i := 0 to 15 do
-            newSquares[i] := self.squares[i];
+      var newSquares: array of integer := new integer[16];
+      newSquares := self.squares;
       
       for var i := 0 to 15 do
             if (self.squares[i] <> -1) and (i >= 4) then
@@ -142,8 +138,7 @@ begin
                         end;
                   end;
       
-      for var i := 0 to 15 do
-            self.squares[i] := newSquares[i];
+      self.squares := newSquares;
 end;
 
 procedure Field.addSquare(squareValue, index: integer);
