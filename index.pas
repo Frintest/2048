@@ -1,15 +1,15 @@
 ﻿uses GameClass;
 
 begin
-      var initialX, initialY, squaresCount, fieldOffset, squareSize, betweenOffset: integer;
+      var squaresCount, squareSize, totalCountHeight, gameOffset, fieldTopOffset, betweenOffset: integer;
       
-      initialX := 3;
-      initialY := 3;
       squaresCount := 4;
-      fieldOffset := 2;
       squareSize := 6;
+      totalCountHeight := 1;
+      gameOffset := 2;
+      fieldTopOffset := 2;
       betweenOffset := 1;
       
-      var game := new Game(initialX, initialY, squaresCount, fieldOffset, squareSize, betweenOffset);
+      var game := new Game(squaresCount, squareSize, totalCountHeight, gameOffset, fieldTopOffset, betweenOffset);
       game.init();
 end.

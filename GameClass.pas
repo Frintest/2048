@@ -7,22 +7,35 @@ uses FieldClass, crt;
 type
       Game = class
       private
-            initialX, initialY, width, height, squaresCount, fieldOffset, squareSize, betweenOffset, errorCode, isWinner: integer;
+            initialX, initialY, width, height, squaresCount, squareSize, totalCountHeight,
+            gameOffset, fieldTopOffset, betweenOffset, totalCount, errorCode: integer;
+            isWinner: boolean;
             field: FieldClass.Field;
             
-            function computeFieldSize: System.Tuple<integer, integer>;
+            function computeFieldInitialCoords: System.Tuple<integer, integer>;
+            function computeGameSize: System.Tuple<integer, integer>;
             procedure render;
+            procedure drawTotalCount;
       public
-            constructor Create(_initialX, _initialY, _squaresCount, _fieldOffset, _squareSize, _betweenOffset: integer);
+            constructor Create(_squaresCount,  _squareSize, _totalCountHeight,
+            _gameOffset, _fieldTopOffset, _betweenOffset: integer);
             begin
-                  self.initialX := _initialX;
-                  self.initialY := _initialY;
                   self.squaresCount := _squaresCount;
-                  self.fieldOffset := _fieldOffset;
                   self.squareSize := _squareSize;
+                  self.totalCountHeight := _totalCountHeight;
+                  self.gameOffset := _gameOffset;
+                  self.fieldTopOffset := _fieldTopOffset;
                   self.betweenOffset := _betweenOffset;
                   self.errorCode := -1;
+                  
+                  var coords := self.computeFieldInitialCoords();
+                  var computedX, computedY: integer;
+                  (computedX, computedY) := coords;
+                  self.initialX := computedX;
+                  self.initialY := computedY;
                   self.field := new FieldClass.Field(self.initialX, self.initialY, self.squaresCount, self.squareSize, self.errorCode);
+                  
+                  self.drawTotalCount();
             end;
             
             procedure init;
@@ -30,13 +43,33 @@ type
 
 implementation
 
-function Game.computeFieldSize: System.Tuple<integer, integer>;
+procedure Game.drawTotalCount;
+begin
+      gotoXY(self.gameOffset + 1, self.gameOffset + 1);
+      write('Счёт: ');
+      textColor(white);
+      write(self.totalCount);
+end;
+
+function Game.computeFieldInitialCoords: System.Tuple<integer, integer>;
+begin
+      var coords: (integer, integer);
+      var initialX, initialY: integer;
+      
+      initialX := self.gameOffset + 1;
+      initialY := self.gameOffset + self.totalCountHeight + self.fieldTopOffset + 1;
+      coords := (initialX, initialY);
+      
+      result := coords;
+end;
+
+function Game.computeGameSize: System.Tuple<integer, integer>;
 begin
       var size: (integer, integer);
       var width, height: integer;
       
-      width := self.fieldOffset * 2 + self.squareSize *  self.squaresCount + self.betweenOffset * (self.squaresCount - 1);
-      height := width;
+      width := self.gameOffset * 2 + self.squareSize *  self.squaresCount + self.betweenOffset * (self.squaresCount - 1);
+      height := width + self.totalCountHeight + self.fieldTopOffset;
       size := (width, height);
       
       result := size;
@@ -44,7 +77,7 @@ end;
 
 procedure Game.init;
 begin
-      var size := self.computeFieldSize();
+      var size := self.computeGameSize();
       var width, height: integer;
       
       (width, height) := size;
