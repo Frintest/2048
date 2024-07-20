@@ -35,12 +35,12 @@ begin
             8: color := LightRed;
             16: color := LightGreen;
             32: color := LightMagenta;
-      //            64: color:= ;
-      //            128: color := ;
-      //            256: color := ;
-      //            512 : color := ;
-      //            1024 :color := ;
-      //            2048: color := ;
+            64: color := Brown;
+            128: color := Blue;
+            256: color := Cyan;
+            512: color := Red;
+            1024: color := Green;
+            2048: color := Magenta;
       end;
       
       result := color;

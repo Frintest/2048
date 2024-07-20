@@ -110,22 +110,22 @@ end;
 procedure Field.handlersArrows;
 begin
       case readKey of
-            #119, #87: 
+            #119, #87: // w, W
                   begin
                         self.squares := self.onHandleTop(self.squares);
                         self.setIsRerender(true);
                   end;
-            #97, #65:
+            #97, #65: // a, A
                   begin
                         self.squares := self.onHandleLeft(self.squares);
                         self.setIsRerender(true);
                   end;
-            #115, #83:
+            #115, #83: // s, S
                   begin
                         self.squares := self.onHandleBottom(self.squares);
                         self.setIsRerender(true);
                   end;
-            #100, #68:
+            #100, #68: // d, D
                   begin
                         self.squares := self.onHandleRight(self.squares);
                         self.setIsRerender(true);
