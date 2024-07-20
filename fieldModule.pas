@@ -31,7 +31,7 @@ type
                   self.initialX := _initialX;
                   self.initialY := _initialY;
                   self.size := _size;
-                   squares := new integer[self.size, self.size];
+                  squares := new integer[self.size, self.size];
                   self.fillSquaresErrorCodes();
             end;
             
@@ -80,8 +80,8 @@ begin
       
       while true do
       begin
-            indexY := random(0, 3);
-            indexX := random(0, 3);
+            indexY := random(0, self.size - 1);
+            indexX := random(0, self.size - 1);
             
             if self.squares[indexY, indexX] = -1 then
                   break;
@@ -126,7 +126,7 @@ begin
       for var i := 0 to self.size - 1 do
             for var j := 0 to self.size - 1 do
                   rotateSquares[i, j] := squares[self.size - j - 1, i];
-
+      
       result := rotateSquares;
 end;
 
@@ -137,7 +137,7 @@ begin
       for var i := 0 to self.size - 1 do
             for var j := 0 to self.size - 1 do
                   rotateSquares[i, j] := squares[j, self.size - i - 1];
-            
+      
       result := rotateSquares;
 end;
 

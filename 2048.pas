@@ -1,13 +1,13 @@
 ﻿uses fieldModule, crt;
 
 begin
-      var initialX, initialY, size, gameWidth, gameHeight, squareWidth, outerOffset, betweenOffer: integer;
+      var initialX, initialY, fieldSize, gameWidth, gameHeight, squareWidth, outerOffset, betweenOffer: integer;
       
-      size := 4; // >3 bug
+      fieldSize := 4; // [1..12]
       outerOffset := 2;
       betweenOffer := 1;
       squareWidth := 6;
-      gameWidth := outerOffset * 2 + squareWidth * size + betweenOffer * (size - 1);
+      gameWidth := outerOffset * 2 + squareWidth * fieldSize + betweenOffer * (fieldSize - 1);
       gameHeight := gameWidth;
       setWindowSize(gameWidth, gameHeight);
       hideCursor();
@@ -15,7 +15,7 @@ begin
       initialX := 3;
       initialY := 3;
       
-      var field := new Field(initialX, initialY, size);
+      var field := new Field(initialX, initialY, fieldSize);
       field.drawField();
       
       while true do
