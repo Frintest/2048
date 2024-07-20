@@ -110,7 +110,7 @@ end;
 procedure Field.handlersArrows;
 begin
       case readKey of
-        #119, #87: 
+            #119, #87: 
                   begin
                         self.squares := self.onHandleTop(self.squares);
                         self.setIsRerender(true);
