@@ -1,8 +1,8 @@
-﻿unit fieldModule;
+﻿unit FieldClass;
 
 interface
 
-uses squareModule, crt, onHandleDirectionModule;
+uses SquareClass, crt, onHandleDirectionModule;
 
 type
       Field = class
