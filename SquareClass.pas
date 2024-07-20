@@ -7,15 +7,16 @@ uses crt;
 type
       Square = class
       private
-            x, y, number: integer;
-            errorCode: integer := -1;
+            x, y, size, number, errorCode: integer;
             function computeBgColor: integer;
       public
-            constructor Create(_x, _y: integer; _number: integer := -1);
+            constructor Create(_x, _y, _size, _number, _errorCode: integer);
             begin
-                  x := _x;
-                  y := _y;
-                  number := _number;
+                  self.x := _x;
+                  self.y := _y;
+                  self.size := _size;
+                  self.number := _number;
+                  self.errorCode := _errorCode;
             end;
             
             procedure drawSquare;
@@ -52,11 +53,11 @@ begin
       
       strNumber := intToStr(self.number);
       gotoXY(self.x, self.y);
-      for var i := 0 to 5 do
+      for var i := 0 to self.size - 1 do
       begin
-            for var j := 0 to 5 do
+            for var j := 0 to self.size - 1 do
             begin
-                  if (j >= 1) and (j <= length(strNumber)) and (i = 1) and (self.number <> -1) then
+                  if (j >= 1) and (j <= length(strNumber)) and (i = 1) and (self.number <> self.errorCode) then
                   begin
                         textColor(white);
                         textBackground(color);

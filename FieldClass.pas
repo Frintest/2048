@@ -7,8 +7,7 @@ uses SquareClass, crt, onHandleDirectionModule;
 type
       Field = class
       private
-            initialX, initialY, size: integer;
-            errorCode: integer := -1;
+            initialX, initialY, size, squareSize, errorCode: integer;
             squares: array [,] of integer;
             fIsRerender: boolean;
             
@@ -26,11 +25,13 @@ type
             function onHandleBottom(squares: array [,] of integer): array [,] of integer;
             function onHandleRight(squares: array [,] of integer): array [,] of integer;
       public
-            constructor Create(_initialX, _initialY, _size: integer);
+            constructor Create(_initialX, _initialY, _size, _squareSize, _errorCode: integer);
             begin
                   self.initialX := _initialX;
                   self.initialY := _initialY;
                   self.size := _size;
+                  self.squareSize := _squareSize;
+                  self.errorCode := _errorCode;
                   squares := new integer[self.size, self.size];
                   self.fillSquaresErrorCodes();
             end;
@@ -195,17 +196,17 @@ begin
       y := self.initialY;
       x := self.initialX;
       self.addSquare(squareIndexes, squareValue);
-      
+
       for var i := 0 to self.size - 1 do
       begin
             for var j := 0 to self.size - 1 do
             begin
-                  var square := new Square(x, y, self.squares[i, j]);
+                  var square := new Square(x, y, self.squareSize, self.squares[i, j], self.errorCode);
                   square.drawSquare();
-                  x := x + 7;
+                  x := x + self.squareSize + 1;
             end;
             x := self.initialX;
-            y := y + 7;
+            y := y + self.squareSize + 1;
       end;
       
       self.fIsRerender := false;

@@ -13,16 +13,16 @@ type
             function computeFieldSize: System.Tuple<integer, integer>;
             procedure render;
       public
-            constructor Create(_initialX, _initialY, _squaresCount, _fieldOffset, _squareSize, _betweenOffser: integer);
+            constructor Create(_initialX, _initialY, _squaresCount, _fieldOffset, _squareSize, _betweenOffset: integer);
             begin
                   self.initialX := _initialX;
                   self.initialY := _initialY;
                   self.squaresCount := _squaresCount;
                   self.fieldOffset := _fieldOffset;
                   self.squareSize := _squareSize;
-                  self.betweenOffset := _betweenOffser;
+                  self.betweenOffset := _betweenOffset;
                   self.errorCode := -1;
-                  self.field := new FieldClass.Field(_initialX, _initialY, _squaresCount);
+                  self.field := new FieldClass.Field(self.initialX, self.initialY, self.squaresCount, self.squareSize, self.errorCode);
             end;
             
             procedure init;
