@@ -84,6 +84,7 @@ begin
       self.height := height;
       
       setWindowSize(self.width, self.height);
+      System.Console.CursorSize := 1;
       hideCursor();
       
       self.field.drawField();
