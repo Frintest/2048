@@ -38,11 +38,24 @@ type
             
             procedure drawField;
             procedure handlersArrows;
+            function computeTotalCount: integer;
             
             property isRerender: boolean read getIsRerender write setIsRerender;
       end;
 
 implementation
+
+function Field.computeTotalCount: integer;
+begin
+      var totalCount: integer;
+      
+      for var i := 0 to self.size - 1 do
+            for var j := 0 to self.size - 1 do
+                  if self.squares[i, j] <> -1 then
+                        totalCount := totalCount + self.squares[i, j];
+
+      result := totalCount;
+end;
 
 procedure Field.fillSquaresErrorCodes;
 begin
@@ -97,25 +110,25 @@ end;
 procedure Field.handlersArrows;
 begin
       case readKey of
-            #119, #87: 
+        #119, #87: 
                   begin
                         self.squares := self.onHandleTop(self.squares);
-                        self.fIsRerender := true;
+                        self.setIsRerender(true);
                   end;
             #97, #65:
                   begin
                         self.squares := self.onHandleLeft(self.squares);
-                        self.fIsRerender := true;
+                        self.setIsRerender(true);
                   end;
             #115, #83:
                   begin
                         self.squares := self.onHandleBottom(self.squares);
-                        self.fIsRerender := true;
+                        self.setIsRerender(true);
                   end;
             #100, #68:
                   begin
                         self.squares := self.onHandleRight(self.squares);
-                        self.fIsRerender := true;
+                        self.setIsRerender(true);
                   end;
       end;
 end;
@@ -196,7 +209,7 @@ begin
       y := self.initialY;
       x := self.initialX;
       self.addSquare(squareIndexes, squareValue);
-
+      
       for var i := 0 to self.size - 1 do
       begin
             for var j := 0 to self.size - 1 do
@@ -209,6 +222,6 @@ begin
             y := y + self.squareSize + 1;
       end;
       
-      self.fIsRerender := false;
+      self.setIsRerender(false);
 end;
 end.

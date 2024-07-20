@@ -2,14 +2,13 @@
 
 interface
 
-uses FieldClass, crt;
+uses FieldClass, dataFromField, crt;
 
 type
       Game = class
       private
             initialX, initialY, width, height, squaresCount, squareSize, totalCountHeight,
             gameOffset, fieldTopOffset, betweenOffset, totalCount, errorCode: integer;
-            isWinner: boolean;
             field: FieldClass.Field;
             
             function computeFieldInitialCoords: System.Tuple<integer, integer>;
@@ -34,8 +33,6 @@ type
                   self.initialX := computedX;
                   self.initialY := computedY;
                   self.field := new FieldClass.Field(self.initialX, self.initialY, self.squaresCount, self.squareSize, self.errorCode);
-                  
-                  self.drawTotalCount();
             end;
             
             procedure init;
@@ -46,6 +43,8 @@ implementation
 procedure Game.drawTotalCount;
 begin
       gotoXY(self.gameOffset + 1, self.gameOffset + 1);
+      textBackground(black);
+      textColor(lightGray);
       write('Счёт: ');
       textColor(white);
       write(self.totalCount);
@@ -88,6 +87,8 @@ begin
       hideCursor();
       
       self.field.drawField();
+      self.totalCount := requestTotalCount(self.field);
+      self.drawTotalCount();
       
       while true do
             self.render();
@@ -102,6 +103,10 @@ begin
       self.field.handlersArrows();
       
       if self.field.IsRerender then
+      begin
             self.field.drawField();
+            self.totalCount := requestTotalCount(self.field);
+            self.drawTotalCount();
+      end;
 end;
 end.
